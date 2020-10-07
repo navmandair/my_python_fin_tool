@@ -2,16 +2,18 @@ import pandas_datareader as pdr
 from datetime import datetime
 import calendar
 
-StartDays = [4, 5, 6, 7, 8]
-for Day in StartDays:
-  StartDay = Day
+StartDates = [4, 5, 6, 7, 8]
+Interval = "m",
+Ticker = "VGT"
+for Date in StartDates:
+  StartDay = Date
   EndDay = StartDay + 2
   StartDate = datetime(2010, 1, StartDay)
   #EndDate = datetime.today()
   EndDate = datetime(2020, 1, EndDay)
   Amount = 50
 
-  data = pdr.get_data_yahoo('IGV', start=StartDate, end=EndDate, interval="m")
+  data = pdr.get_data_yahoo(Ticker, start=StartDate, end=EndDate, interval="m")
 
   data['Amount Invested'] = Amount
   data['Share Bought'] = Amount / data['Close']
@@ -25,7 +27,7 @@ for Day in StartDays:
   TotalShareBought = data['Share Bought'].sum()
   AvgPrice = TotalAmountInvested / TotalShareBought
   LastPrice = data.tail(1).get('Close').values[0]
-
+  print(Ticker + " interval " + Interval )
   print(f"StartDate = {StartDate} {calendar.day_name[StartDate.weekday()]}")
   print(f"EndDate = {EndDate} {calendar.day_name[EndDate.weekday()]}")
   #print(f"Total Amount Invested = {TotalAmountInvested}")
