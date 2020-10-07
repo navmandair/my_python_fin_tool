@@ -23,14 +23,14 @@ while 1:
     del data['High']
     del data['Adj Close']
     del data['Volume']
-
+    
     TotalAmountInvested = data['Amount Invested'].sum()
     TotalShareBought = data['Share Bought'].sum()
     AvgPrice = TotalAmountInvested / TotalShareBought
+    ActualStartDate = data.head(1).index.to_pydatetime()[0].date()
     LastPrice = data.tail(1).get('Close').values[0]
     #print(f"Ticker: {Ticker}  interval:  {Interval}" )
-    print(f"StartDate = {StartDate} {calendar.day_name[StartDate.weekday()]}")
-    print(f"EndDate = {EndDate} {calendar.day_name[EndDate.weekday()]}")
+    print(f"{ActualStartDate} {calendar.day_name[ActualStartDate.weekday()]} - {EndDate} {calendar.day_name[EndDate.weekday()]}")
     #print(f"Total Amount Invested = {TotalAmountInvested}")
     #print(f"Total Shares Own = {TotalShareBought}")
     #print(f"Avg Price paid per share = {AvgPrice}")
@@ -39,4 +39,5 @@ while 1:
     TotalReturn = ((TotalShareBought * LastPrice) -
                 TotalAmountInvested) / TotalAmountInvested * 100
     print("Total Return % = {:.2f}".format(TotalReturn))
-    print()
+  print("-------------------------------------------------")
+  print()
