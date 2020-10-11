@@ -35,9 +35,10 @@ while 1:
         TotalShareBought = data['Share Bought'].sum()
         AvgPrice = TotalAmountInvested / TotalShareBought
         ActualStartDate = data.head(1).index.to_pydatetime()[0].date()
+        ActualEndDate = data.tail(1).index.to_pydatetime()[0].date()
         LastPrice = data.tail(1).get(CalBasedOn).values[0]
         #print(f"StartDate: {StartDate} Ticker: {Ticker}  interval:  {Interval}" )
-        print(f"{ActualStartDate} {calendar.day_name[ActualStartDate.weekday()]} - {EndDate} {calendar.day_name[EndDate.weekday()]}")
+        print(f"{ActualStartDate} {calendar.day_name[ActualStartDate.weekday()]} - {ActualEndDate} {calendar.day_name[ActualEndDate.weekday()]}")
         #print(f"Total Amount Invested = {TotalAmountInvested}")
         #print(f"Total Shares Own = {TotalShareBought}")
         #print(f"Avg Price paid per share = {AvgPrice}")
