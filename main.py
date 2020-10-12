@@ -30,7 +30,6 @@ while 1:
 
     for Day in StartDates:
         data = rawdata.query(f'WEEKDAY == {Day}')
-        
         TotalAmountInvested = data['Amount Invested'].sum()
         TotalShareBought = data['Share Bought'].sum()
         AvgPrice = TotalAmountInvested / TotalShareBought
@@ -46,7 +45,8 @@ while 1:
         #print(f"Total Return $ = {(TotalShareBought*LastPrice)-TotalAmountInvested}")
         TotalReturn = ((TotalShareBought * LastPrice) -
                     TotalAmountInvested) / TotalAmountInvested * 100
-        print("Total Return % = {:.2f}".format(TotalReturn))
+        TotalYearsInvested = ((ActualEndDate-ActualStartDate).days/365) 
+        print("Total Return = {:.2f}%, Total Avg Return is = {:.2f}% over {:.2f} years".format(TotalReturn, TotalReturn/TotalYearsInvested, TotalYearsInvested))
   except:
     print('Something went wrong ! try again')
   print("-------------------------------------------------")
