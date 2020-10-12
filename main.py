@@ -9,19 +9,20 @@ def main():
     try:
       TickersInput = input("Enter Ticker: ")
       Tickers = list(TickersInput.split(",")) 
-      returns(Tickers);
+      #info(Tickers)
+      returns("yf", Tickers)
     except:
       print('Something went wrong ! try again')
     print()
 
 def info(Tickers):
-  rawData = yf.Ticker("MSFT")
-  print(rawData)
+  for Ticker in Tickers:  
+    yf.Ticker(Ticker).history(period="max")
+    rawData = yf.Ticker(Ticker).recommendations.tail(20)
+    print(rawData)
 
-def returns(Tickers):  
+def returns(API, Tickers):  
   StartDates = [0, 1, 2, 3, 4]
-  Interval = "d"
-  #Ticker = "VGT"
   Amount = 50
   StartDate = input("Enter Start Date (YYYY-mm-dd) default inception: ")
   if StartDate == "":
@@ -29,18 +30,21 @@ def returns(Tickers):
   else:
     StartDate = datetime.strptime(StartDate, '%Y-%m-%d')
 
-  CalBasedOn = input("Which data to use (Low, High, Open, Close) (default Close): ")
+  CalBasedOn = input("Which data to use (Low, High, Open, Close, Adj Close) (default Close): ")
   if CalBasedOn == "":
     CalBasedOn = 'Close'
     
   for Ticker in Tickers:
     EndDate = datetime.now().date()
-    rawdata = pdr.get_data_yahoo(Ticker, start=StartDate, end=EndDate, interval=Interval)
+    if API == "yf":
+      rawdata = yf.download(Ticker, start=StartDate, end=EndDate)
+    if API == "pdr":
+      rawdata = pdr.get_data_yahoo(Ticker, start=StartDate, end=EndDate, interval="d")
+
     rawdata['DATE'] = rawdata.index.to_pydatetime()
     rawdata['WEEKDAY'] = rawdata['DATE'].dt.weekday
     rawdata['Amount Invested'] = Amount
     rawdata['Share Bought'] = Amount / rawdata[CalBasedOn]
-    del rawdata['Adj Close']
     del rawdata['Volume']
 
     print(f"Ticker: {Ticker}" )
@@ -51,7 +55,6 @@ def returns(Tickers):
       ActualStartDate = data.head(1).index.to_pydatetime()[0].date()
       ActualEndDate = data.tail(1).index.to_pydatetime()[0].date()
       LastPrice = data.tail(1).get(CalBasedOn).values[0]
-      #print(f"StartDate: {StartDate} Ticker: {Ticker}  interval:  {Interval}" )
       print(f"{ActualStartDate} {calendar.day_name[ActualStartDate.weekday()]} - {ActualEndDate} {calendar.day_name[ActualEndDate.weekday()]}")
       #print(f"Total Amount Invested = {TotalAmountInvested}")
       #print(f"Total Shares Own = {TotalShareBought}")
