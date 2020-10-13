@@ -1,4 +1,4 @@
-import pandas_datareader as pdr
+#import pandas_datareader as pdr
 import yfinance as yf
 from datetime import datetime
 import calendar
@@ -44,8 +44,8 @@ def returns(API, Tickers):
     EndDate = datetime.now().date()
     if API == "yf":
       rawdata = yf.download(Ticker, start=StartDate, end=EndDate)
-    if API == "pdr":
-      rawdata = pdr.get_data_yahoo(Ticker, start=StartDate, end=EndDate, interval="d")
+    #if API == "pdr":
+    #  rawdata = pdr.get_data_yahoo(Ticker, start=StartDate, end=EndDate, interval="d")
 
     rawdata['DATE'] = rawdata.index.to_pydatetime()
     rawdata['WEEKDAY'] = rawdata['DATE'].dt.weekday
