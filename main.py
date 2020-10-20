@@ -60,7 +60,6 @@ def returns(API, Tickers):
       ActualStartDate = data.head(1).index.to_pydatetime()[0].date()
       ActualEndDate = data.tail(1).index.to_pydatetime()[0].date()
       LastPrice = data.tail(1).get(CalBasedOn).values[0]
-      print(f"{ActualStartDate} {calendar.day_name[ActualStartDate.weekday()]} - {ActualEndDate} {calendar.day_name[ActualEndDate.weekday()]}")
       #print(f"Total Amount Invested = {TotalAmountInvested}")
       #print(f"Total Shares Own = {TotalShareBought}")
       #AvgPrice = TotalAmountInvested / TotalShareBought
@@ -70,7 +69,7 @@ def returns(API, Tickers):
       TotalReturn = ((TotalShareBought * LastPrice) -
                       TotalAmountInvested) / TotalAmountInvested * 100
       TotalYearsInvested = ((ActualEndDate-ActualStartDate).days/365) 
-      print("Total Return = {:.2f}%, Total Avg Return is = {:.2f}% p.a over {:.2f} years".format(TotalReturn, TotalReturn/TotalYearsInvested, TotalYearsInvested))
+      print(f"{(TotalReturn/TotalYearsInvested):.2f}% p.a over {TotalYearsInvested:.2f} years, {ActualStartDate} {calendar.day_name[ActualStartDate.weekday()]} - {ActualEndDate} {calendar.day_name[ActualEndDate.weekday()]}")
     print("-------------------------------------------------")
   
 
