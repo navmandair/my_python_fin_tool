@@ -35,6 +35,12 @@ def returns(API, Tickers):
   else:
     StartDate = datetime.strptime(StartDate, '%Y-%m-%d')
 
+  EndDate = input("Enter End Date (YYYY-mm-dd) default today: ")
+  if EndDate == "":
+    EndDate = datetime.now().date()
+  else:
+    EndDate = datetime.strptime(EndDate, '%Y-%m-%d')
+
   CalBasedOn = input("Which data to use (Low-1, High-2, Adj Close-3) (default Close): ")
   if CalBasedOn == "1":
     CalBasedOn = 'Low'
@@ -47,7 +53,6 @@ def returns(API, Tickers):
   
   for Ticker in Tickers:
     info(Ticker)
-    EndDate = datetime.now().date()
     if API == "yf":
       rawdata = yf.download(Ticker, start=StartDate, end=EndDate)
     #if API == "pdr":
