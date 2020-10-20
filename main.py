@@ -35,8 +35,14 @@ def returns(API, Tickers):
   else:
     StartDate = datetime.strptime(StartDate, '%Y-%m-%d')
 
-  CalBasedOn = input("Which data to use (Low, High, Open, Close, Adj Close) (default Close): ")
-  if CalBasedOn == "":
+  CalBasedOn = input("Which data to use (Low-1, High-2, Adj Close-3) (default Close): ")
+  if CalBasedOn == "1":
+    CalBasedOn = 'Low'
+  elif CalBasedOn == "2":
+    CalBasedOn = 'High'
+  elif CalBasedOn == "3":
+    CalBasedOn = 'Adj Close'
+  else:
     CalBasedOn = 'Close'
   
   for Ticker in Tickers:
@@ -69,7 +75,7 @@ def returns(API, Tickers):
       TotalReturn = ((TotalShareBought * LastPrice) -
                       TotalAmountInvested) / TotalAmountInvested * 100
       TotalYearsInvested = ((ActualEndDate-ActualStartDate).days/365) 
-      print(f"{(TotalReturn/TotalYearsInvested):.2f}% p.a over {TotalYearsInvested:.2f} years, {ActualStartDate} {calendar.day_name[ActualStartDate.weekday()]} - {ActualEndDate} {calendar.day_name[ActualEndDate.weekday()]}")
+      print(f"{(TotalReturn/TotalYearsInvested):.2f}% p.a, {calendar.day_name[ActualEndDate.weekday()]} at {CalBasedOn} price [{ActualStartDate} - {ActualEndDate}]")
     print("-------------------------------------------------")
   
 
