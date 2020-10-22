@@ -1,6 +1,7 @@
 #import pandas_datareader as pdr
 import yfinance as yf
 from datetime import datetime
+from datetime import date
 import calendar
 
 
@@ -29,17 +30,18 @@ def info(Ticker):
 def returns(API, Tickers):  
   StartDates = [0, 1, 2, 3, 4]
   Amount = 50
-  StartDate = input("Enter Start Date (YYYY-mm-dd) default inception: ")
-  if StartDate == "":
-    StartDate = datetime(1900, 1, 1).date()
-  else:
-    StartDate = datetime.strptime(StartDate, '%Y-%m-%d')
-
+  
   EndDate = input("Enter End Date (YYYY-mm-dd) default today: ")
   if EndDate == "":
     EndDate = datetime.now().date()
   else:
     EndDate = datetime.strptime(EndDate, '%Y-%m-%d')
+
+  Duration = input("Duration Years(default inception): ")
+  if Duration != "":
+    StartDate = date(EndDate.year - int(Duration), EndDate.month, EndDate.day)
+  else:
+    StartDate = datetime(1900, 1, 1).date()
 
   CalBasedOn = input("Which data to use (Low-1, High-2, Adj Close-3) (default Close): ")
   if CalBasedOn == "1":
